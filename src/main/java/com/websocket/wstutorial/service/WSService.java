@@ -1,5 +1,6 @@
 package com.websocket.wstutorial.service;
 
+import com.websocket.wstutorial.messaging.TestMqClient;
 import com.websocket.wstutorial.model.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -25,5 +26,11 @@ public class WSService {
         ResponseMessage response = new ResponseMessage(message);
 
         messagingTemplate.convertAndSendToUser(id, "/topic/private-messages", response);
+    }
+
+    public void notifyAll(final String message) {
+        ResponseMessage response = new ResponseMessage(message);
+
+        messagingTemplate.convertAndSend("/topic/private-messages", response);
     }
 }
